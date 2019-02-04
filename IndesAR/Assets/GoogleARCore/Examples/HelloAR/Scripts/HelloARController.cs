@@ -48,12 +48,15 @@ namespace GoogleARCore.Examples.HelloAR
         /// <summary>
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
-        public GameObject AndyPlanePrefab;
+        ///public GameObject AndyPlanePrefab;
 
         /// <summary>
         /// A model to place when a raycast from a user touch hits a feature point.
         /// </summary>
-        public GameObject AndyPointPrefab;
+        ///public GameObject AndyPointPrefab;
+
+        /// A model of Table_Chair to place table and chair
+        public GameObject Table_Chair;
 
         /// <summary>
         /// A game object parenting UI for displaying the "searching for planes" snackbar.
@@ -106,8 +109,8 @@ namespace GoogleARCore.Examples.HelloAR
 
             // Raycast against the location the player touched to search for planes.
             TrackableHit hit;
-            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon |
-                TrackableHitFlags.FeaturePointWithSurfaceNormal;
+            TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon;
+             ///   | TrackableHitFlags.FeaturePointWithSurfaceNormal;
 
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
@@ -123,27 +126,27 @@ namespace GoogleARCore.Examples.HelloAR
                 {
                     // Choose the Andy model for the Trackable that got hit.
                     GameObject prefab;
-                    if (hit.Trackable is FeaturePoint)
-                    {
-                        prefab = AndyPointPrefab;
-                    }
-                    else
-                    {
-                        prefab = AndyPlanePrefab;
-                    }
+                   /// if (hit.Trackable is FeaturePoint)
+                  ///  {
+                        prefab = Table_Chair;
+                  ///  }
+                  ///  else
+                  ///  {
+                   ///     prefab = AndyPlanePrefab;
+                  ///  }
 
                     // Instantiate Andy model at the hit pose.
-                    var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+                    var tablechairObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 
                     // Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-                    andyObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
+                    tablechairObject.transform.Rotate(0, k_ModelRotation, 0, Space.Self);
 
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                     // world evolves.
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
 
                     // Make Andy model a child of the anchor.
-                    andyObject.transform.parent = anchor.transform;
+                    tablechairObject.transform.parent = anchor.transform;
                 }
             }
         }
